@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{%block top%}
+Contact
+{%endblock%}
+
+{%block content%}
+<table width=100%>
+<tr>
+<td width=40% align=left>
+1 Great Av.<br> 
+MyCity, My State<br>
+My Country<br>
+12345<br>
+</td>
+<td>
+tel. (111) 222-3333<br>
+fax. (111) 222-3334<br>
+email: info.sitename.com
+</td>
+</tr>
+</table>
+<p>
+<form action="" method=post>
+	{%if error%}
+		<p><span style="color:red">{{error}}</span></p>
+	{%endif%}
+	{%if message%}
+		<p><span style="color:green">{{message}}</span></p>
+	{%endif%}
+	Your name:<br>
+	<input type="text" size=32 name="fullname" {%if fullname%}value="{{fullname}}"{%endif%}/><br>
+	Your email address:<br>
+	<input type="text" size=32 name="email1" {%if email1%}value="{{email1}}"{%endif%}/><br>
+	Enter your email again:<br>
+	<input type="text" size=32 name="email2" {%if email2%}value="{{email2}}"{%endif%}/><br>
+	Subject:<br>
+	<input type="text" size=32 name="subject" {%if subject%}value="{{subject}}"{%endif%}/><br>
+	Message:<br>
+	<textarea cols=30 rows=10 name="body">{%if body%}{{body}}{%endif%}</textarea><br>
+	<input type="submit" value="Send"/>
+</form>
+</p>
+{%endblock%}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block top %}
+Login
+{%endblock%}
+
+{%block content%}
+	{%if users|length%}
+		{%for user in users%}
+			<p>{{user.email}}/{{user.password}}:{{user.regkey}}</p>
+		{%endfor%}
+		<hr>
+	{%endif%}
+	
+	<form action="" method="post">
+	<table>
+		<tr>
+			<td colspan=2>
+				{%if error%}
+					<p><span style="color:red">{{error}}</span></p>
+				{%endif%}
+				{%if message%}
+					<p><span style="color:green">{{message}}</span></p>
+				{%endif%}
+			</td>
+		</tr>
+		<tr>
+			<td>Email address:</td>
+			<td align="right"><input type="text" name="email" size="32" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td align="right"><input type="password" name="password" size="32"/></td>
+		</tr>		
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Login"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><a href="/forgot">Forgot your password?</a></td>
+		</tr>
+	</table>
+	</form>
+{% endblock %}

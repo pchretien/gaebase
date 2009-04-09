@@ -1,0 +1,13 @@
+Dear {%if firstnamevalue%}{{firstnamevalue}}{%else%}{{emailvalue}}{%endif%},
+
+You have changed your email address on [[sitename]].
+
+To activate your new email follow the link below:
+http://basbrun.appspot.com/confirm?reg={{newemail}}&key={{key}}
+(If clicking on the link doesn't work, try copying and pasting it into your browser.)
+
+
+
+Thank you,
+
+The [[sitename]] Team

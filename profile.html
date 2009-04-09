@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block top %}
+Profile
+{%endblock%}
+
+{%block content%}
+	<table>
+		<tr>
+			<td colspan=2>
+				{%if error%}
+					<p><span style="color:red">{{error}}</span></p>
+				{%endif%}
+				{%if message%}
+					<p><span style="color:green">{{message}}</span></p>
+				{%endif%}
+			</td>
+		</tr>
+		<form action="" method="post">
+		<input type=hidden name="click" value="profile"/>
+		<tr>
+			<td>First name:</td>
+			<td align="right"><input type="text" name="firstname" size="32" value="{%if firstnamevalue%}{{firstnamevalue}}{%endif%}"/></td>
+		</tr>
+		<tr>
+			<td>Last name:</td>
+			<td align="right"><input type="text" name="lastname" size="32" value="{%if lastnamevalue%}{{lastnamevalue}}{%endif%}"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Update"/></td>
+		</tr>
+		</form>
+		<form action="" method="post">
+		<input type=hidden name="click" value="email"/>
+		<tr>
+			<td>Email address:</td>
+			<td align="right"><input type="text" name="email" size="32" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Change Email"/></td>
+		</tr>
+		</form>
+		<form action="" method="post">
+		<input type=hidden name="click" value="password"/>
+		<tr>
+			<td>Password:</td>
+			<td align="right"><input type="password" name="password1" size="32"/></td>
+		</tr>
+		<tr>
+			<td>Confirm password:</td>
+			<td align="right"><input type="password" name="password2" size="32"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Change Password"/></td>
+		</tr>
+		</form>
+	</table>
+	
+{% endblock %}

@@ -1,0 +1,11 @@
+Dear {%if firstnamevalue%}{{firstnamevalue}}{%else%}{{emailvalue}}{%endif%},
+
+Your account on [[sitename]] has been created.
+
+To activate your account follow the link below:
+http://basbrun.appspot.com/confirm?reg={{emailvalue}}&key={{key}}
+(If clicking on the link doesn't work, try copying and pasting it into your browser.)
+
+Thank you,
+
+The [[sitename]] Team

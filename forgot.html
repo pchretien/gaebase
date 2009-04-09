@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block top %}
+Password Reset Request
+{%endblock%}
+
+{%block content%}
+	{%if users|length%}
+		{%for user in users%}
+			<p>{{user.email}}/{{user.password}}:{{user.regkey}}</p>
+		{%endfor%}
+		<hr>
+	{%endif%}
+	
+	<form action="" method="post">
+	<p>Enter your email address here and we will send you a secret key that will allow you to reset your password.</p>
+	<table>
+		<tr>
+			<td colspan=2>
+				{%if error%}
+					<p><span style="color:red">{{error}}</span></p>
+				{%endif%}
+				{%if message%}
+					<p><span style="color:green">{{message}}</span></p>
+				{%endif%}
+			</td>
+		</tr>
+		<tr>
+			<td>Email address:</td>
+			<td align="right"><input type="text" name="email" size="32" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Reset my password"/></td>
+		</tr>
+	</table>
+	</form>
+{% endblock %}

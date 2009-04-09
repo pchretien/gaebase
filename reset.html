@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{%block top%}
+Password Reset
+{% endblock %}
+
+{%block content%}
+	{%if users|length%}
+		{%for user in users%}
+			<p>{{user.email}}/{{user.password}}:{{user.regkey}}</p>
+		{%endfor%}
+		<hr>
+	{%endif%}
+	
+	<form action="" method="post">
+	<table>
+		<tr>
+			<td colspan=2>
+				{%if error%}
+					<p><span style="color:red">{{error}}</span></p>
+				{%endif%}
+				{%if message%}
+					<p><span style="color:green">{{message}}</span></p>
+				{%endif%}
+			</td>
+		</tr>
+		<tr>
+			<td>Email address:</td>
+			<td align="right"><input type="text" name="email" size="32" {%if reg%}value="{{reg}}"{%endif%}/></td>
+		</tr>
+		<tr>
+			<td>Password reset key:</td>
+			<td align="right"><input type="text" name="key" size="32" {%if key%}value="{{key}}"{%endif%}/></td>
+		</tr>
+		<tr>
+			<td>New password:</td>
+			<td align="right"><input type="password" name="password1" size="32"/></td>
+		</tr>
+		<tr>
+			<td>Confirm new password:</td>
+			<td align="right"><input type="password" name="password2" size="32"/></td>
+		</tr>		
+		<tr>
+			<td colspan="2" align="right"><input type="submit" value="Update Password"/></td>
+		</tr>
+	</table>
+	</form>
+{%endblock%}

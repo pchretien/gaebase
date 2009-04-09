@@ -1,0 +1,51 @@
+<!-- Basic template by Philippe Chretien philippe.chretien@gmail.com -->
+
+<html>
+<head>
+    <title>{% block title %}[[sitename]]{% endblock %}</title>
+</head>
+<body>
+	<table border=0 width=100%>
+	<tr>
+		<td bgcolor="00FF00" valign="top"><h3>{%block header%}[[sitename]]{%endblock%}</h3></td>
+		<td bgcolor="44AAFF" align="center" valign="top"><h3>{%block top%}{%endblock%}</h3></td>
+		<td bgcolor="FFFF00" width="25%" align="right"valign="top">
+		{%block login%}
+			{%if email%}
+				<b><a href="/profile">
+				{%if fullname%}
+					{{fullname}}
+				{%else%}				
+					{{email}}
+				{%endif%}
+				</b></a><br>
+				<a href="/logout">(Logout)</a>			
+			{%else%}
+				<b><a href="/register">Register</a><br></b>
+				<a href="/login">Login</a>
+			{%endif%}
+		{%endblock%}
+		</td>
+	</tr>
+    <tr>
+    <td valign="top" width=25% bgcolor="FF00FF">
+	    {%block menu%}	
+	    	<p><a href="/">Home</a></p>
+			<p><a href="create">Create</a></p>
+			<p><a href="view">View</a></p>
+			<p><a href="update">Update</a></p>
+			<p><a href="contact">Contact us</a></p>
+		{% endblock %}
+	</td>
+	<td valign="top">{% block content %}{% endblock %}</td>
+	<td valign="top" bgcolor="66BB33">{% block right %}{% endblock %}</td>
+    <tr>
+	    <td colspan=3 valign="top" bgcolor="00FFFF">
+		    {%block footer%}
+		    	<div align=center>GAEbase v1.0 Copyright Philippe Chretien (<a href="http://www.basbrun.com" target="_blank">basbrun.com</a>) 1999 - 2009</div>
+		    {%endblock%}
+	    </td>
+    </tr>
+    </table> 
+</body>
+</html>
