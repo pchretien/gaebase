@@ -1,4 +1,4 @@
-application: cryptoeditor
+application: basbrun
 version: 1
 runtime: python
 api_version: 1
@@ -9,9 +9,9 @@ handlers:
   static_files: static/images/\1
   upload: static/images/(.*\.(gif|png|jpg))
 
-- url: /cryptoeditor.css
-  static_files: static/cryptoeditor.css
-  upload: static/cryptoeditor.css
+- url: /basbrun.css
+  static_files: static/basbrun.css
+  upload: static/basbrun.css
 
 - url: /favicon.ico
   static_files: static/images/favicon.ico

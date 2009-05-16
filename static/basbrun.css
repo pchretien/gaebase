@@ -1,0 +1,74 @@
+body
+{
+	background-color: dddddd;
+	color: 005500;
+	font-family:Arial;
+}
+
+a.nolink
+{
+	color:005500;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:smaller;
+}
+
+a
+{
+	color:5555ff;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:small;
+}
+
+img
+{  
+	border-style: none;
+}
+
+#top-banner
+{
+	float: left;
+	width: 730px;
+	clear: both;
+	margin-left: 36px;
+}
+
+button, a.button {
+    	color: #fff;
+    	background-color: #88ff88; /* full secondary color */
+    	/*margin: 0 0 0 1em;
+    	padding: .2em 8px;*/
+    	font-size: 1em;
+    	border: 1px solid #dff2ff; /* light secondary color */
+    	border-right-color: #888;
+    	border-bottom-color: #888;
+    	cursor: pointer;
+    }
+		a.button:hover {
+			text-decoration: none;
+		}
+    /* ff2 */
+    button, a.button, x:-moz-any-link {
+    	padding:.2em 8px .15em;
+    }
+    /* ff3 */
+    button, a.button, x:-moz-any-link, x:default {
+    	padding:.21em 8px .19em;
+    }
+    /* safari: */
+    html[xmlns*=""] body:last-child button,
+    html[xmlns*=""] body:last-child a.button {
+    	padding:.25em 12px .25em;
+    }
+    /* ie: */
+    button, a.button {
+      *margin-left:4px;
+    	*padding:.1em 4px .1em;
+    }
+    
+    button.alt-button {
+    	color: #00a8ff;
+    	background-color: #fff;
+    	border-color: #ccc #999 #999 #ccc
+    }
