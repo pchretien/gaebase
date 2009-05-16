@@ -1,6 +1,6 @@
 Dear {%if firstnamevalue%}{{firstnamevalue}}{%else%}{{emailvalue}}{%endif%},
 
-Your account on [[sitename]] has been created.
+Your account on Basbrun has been created.
 
 To activate your account follow the link below:
 http://basbrun.appspot.com/confirm?reg={{emailvalue}}&key={{key}}
@@ -8,4 +8,4 @@ http://basbrun.appspot.com/confirm?reg={{emailvalue}}&key={{key}}
 
 Thank you,
 
-The [[sitename]] Team
+The Basbrun Team

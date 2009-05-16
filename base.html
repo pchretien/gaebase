@@ -2,24 +2,44 @@
 
 <html>
 <head>
-    <title>{% block title %}[[sitename]]{% endblock %}</title>
+    <title>{% block title %}GaeBase{% endblock %}</title>
+    <link href="/cryptoeditor.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    {%block script%}
+    {%endblock%}
+    </script>
 </head>
-<body>
-	<table border=0 width=100%>
-	<tr>
-		<td bgcolor="00FF00" valign="top"><h3>{%block header%}[[sitename]]{%endblock%}</h3></td>
-		<td bgcolor="44AAFF" align="center" valign="top"><h3>{%block top%}{%endblock%}</h3></td>
-		<td bgcolor="FFFF00" width="25%" align="right"valign="top">
+<body leftmargin=10 topmargin=10>
+	<div id="top-banner" style="display: none;">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-4675480524218132";
+			/* top secretquiz.com */
+			google_ad_slot = "4650202539";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+	</div>
+	<img src="images/bg.png" height=2 width=800/>
+	<table cellpadding=5 cellspacing=0 border=0 width=800 height=400 align="left" bgcolor="dddddd">
+
+	<tr height=50>
+		<td bgcolor="88ff88" width="125" align="left" valign="top">{%block header%}<a title="Basbrun" href="/"><span style="font-size:20">Basbrun</span><br><span style="font-size:10">Wasting your time ...</span></a>{%endblock%}</td>
+		<td bgcolor="88ff88" align="left" valign="bottom" width="550"><span style="font-size:15; margin-left: 10">{%block top%}{%endblock%}</span></td>
+		<td bgcolor="88ff88" width="125" align="right"valign="top">
 		{%block login%}
 			{%if email%}
 				<b><a href="/profile">
 				{%if fullname%}
 					{{fullname}}
-				{%else%}				
+				{%else%}
 					{{email}}
 				{%endif%}
 				</b></a><br>
-				<a href="/logout">(Logout)</a>			
+				<a style="color:red;" href="/logout">(Logout)</a>
 			{%else%}
 				<b><a href="/register">Register</a><br></b>
 				<a href="/login">Login</a>
@@ -28,24 +48,67 @@
 		</td>
 	</tr>
     <tr>
-    <td valign="top" width=25% bgcolor="FF00FF">
-	    {%block menu%}	
+    <td valign="top" bgcolor="ffffff" width="125">
+	    {%block menu%}
 	    	<p><a href="/">Home</a></p>
-			<p><a href="create">Create</a></p>
-			<p><a href="view">View</a></p>
-			<p><a href="update">Update</a></p>
-			<p><a href="contact">Contact us</a></p>
+			<p><a href="/contact">Contact us</a></p>
 		{% endblock %}
 	</td>
-	<td valign="top">{% block content %}{% endblock %}</td>
-	<td valign="top" bgcolor="66BB33">{% block right %}{% endblock %}</td>
-    <tr>
-	    <td colspan=3 valign="top" bgcolor="00FFFF">
+	<td valign="top" bgcolor="ffffff" width="550">{% block content %}{% endblock %}</td>
+	<td valign="top" bgcolor="ffffff" width="125">
+		{% block right %}
+			{%if email%}
+
+			{%else%}
+				<form action="/login" method="post">
+					Email address<br>
+					<input type="text" name="email" size="16" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/><br>
+					Password<br>
+					<input type="password" name="password" size="16"/><br>
+					<input type="submit" value="Login"/><br>
+					<a href="/forgot">Forgot your<br>password?</a>
+				</form>
+			{%endif%}
+
+		{% endblock %}
+		<div align="center" style="display: none;">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-4675480524218132";
+			/* right long secretquiz.com */
+			google_ad_slot = "0286219537";
+			google_ad_width = 120;
+			google_ad_height = 600;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+		</div>
+	</td>
+    <tr height=25>
+	    <td colspan=3 valign="top" bgcolor="dddddd">
 		    {%block footer%}
-		    	<div align=center>GAEbase v1.0 Copyright Philippe Chretien (<a href="http://www.basbrun.com" target="_blank">basbrun.com</a>) 1999 - 2009</div>
+		    	<div align=center>Basbrun v1.0 Copyright basbrun (<a href="http://www.2sortes.com" target="_blank">basbrun.com</a>) 1999 - 2009</div>
 		    {%endblock%}
 	    </td>
     </tr>
-    </table> 
+    <tr>
+	    <td colspan=3 valign="top">
+	    	<div align="center" id="bottom-banner" style="display: none;">
+				<script type="text/javascript"><!--
+					google_ad_client = "pub-4675480524218132";
+					/* bottom secretquiz.com */
+					google_ad_slot = "2387230823";
+					google_ad_width = 728;
+					google_ad_height = 90;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</div>
+		</td>
+	</tr>
+    </table>
 </body>
 </html>

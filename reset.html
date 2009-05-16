@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {%block top%}
-Password Reset
+<a href="/">Home</a> > Password Reset
 {% endblock %}
 
 {%block content%}
@@ -11,7 +11,7 @@ Password Reset
 		{%endfor%}
 		<hr>
 	{%endif%}
-	
+
 	<form action="" method="post">
 	<table>
 		<tr>
@@ -39,7 +39,7 @@ Password Reset
 		<tr>
 			<td>Confirm new password:</td>
 			<td align="right"><input type="password" name="password2" size="32"/></td>
-		</tr>		
+		</tr>
 		<tr>
 			<td colspan="2" align="right"><input type="submit" value="Update Password"/></td>
 		</tr>

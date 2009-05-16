@@ -1,30 +1,7 @@
-## GAEbase ##
-#
-# This is a base template for developers interested in developping small 
-# websites on Google App Engine. This framework implement a full user 
-# management system.
-# Copyright (C) 2008,2009  Philippe Chretien
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License Version 2
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-# You will find the latest version of this code at the following address:
-# http://github.com/pchretien
-#
-# You can contact me at the following email address:
-# philippe.chretien@gmail.com
 
 import uuid
 import wsgiref.handlers
+from Crypto.Hash import MD5
 
 from google.appengine.api import mail
 from google.appengine.ext import db
@@ -32,13 +9,17 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 
-from basbrunuser import User
+from basbrun import User
 from appengine_utilities.sessions import Session
+
+debug = False
+senderEmailAddress = 'info@secretquiz.com'
+supportEmailAddress = 'philippe.chretien@gmail.com'
 
 def checkLogin(handler):
     pageParams = {}
     handler.session = Session()        
-    if handler.session.get('user') is not None:
+    if handler.session.get('user'):
         user = db.get(handler.session.get('user'))
         pageParams = {'email': user.email}        
         
@@ -48,12 +29,28 @@ def checkLogin(handler):
     # DEBUG
     # Replace this block by the line in comment to remove user list from the 
     # login and confirm pages
-    #query = db.GqlQuery('SELECT * FROM User ORDER BY email')
-    #users = [user for user in query]
-    #pageParams['users'] = users
-    pageParams['users'] = []
+    if debug:
+        query = db.GqlQuery('SELECT * FROM User ORDER BY email')
+        users = [user for user in query]
+        pageParams['users'] = users
+    else:
+        pageParams['users'] = []
             
     return pageParams
+
+def getUser(handler):
+    handler.session = Session()        
+    if handler.session.get('user'):
+        user = db.get(handler.session.get('user'))
+        return user
+    
+    return None
+
+def hash(password):
+    # Hash the password ...
+    md5 = MD5.new()
+    md5.update(password)
+    return md5.hexdigest()
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
@@ -62,8 +59,7 @@ class MainHandler(webapp.RequestHandler):
         
 class LoginHandler(webapp.RequestHandler):
     def get(self):
-        pageParams = checkLogin(self)      
-        
+        pageParams = checkLogin(self)              
         self.response.out.write( template.render('login.html', pageParams ))
         
     def post(self):
@@ -75,7 +71,7 @@ class LoginHandler(webapp.RequestHandler):
         query = db.GqlQuery('SELECT * FROM User where email = :1', email)
         user = query.get()
         
-        if user is None or user.password != password:
+        if user is None or user.password != hash(password):
             pageParams['emailvalue'] = email
             pageParams['error'] = "Access denied."
             self.response.out.write( template.render('login.html', pageParams ))
@@ -126,9 +122,9 @@ class ForgotHandler(webapp.RequestHandler):
         pageParams['firstnamevalue'] = user.firstname
         
         msg = template.render('forgot.eml', pageParams)            
-        mail.send_mail(sender="philippe.chretien@gmail.com",
+        mail.send_mail(sender=senderEmailAddress,
                        to=email,
-                       subject="[[sitename]] password reset confirmation",
+                       subject="GaeBase password reset confirmation",
                        body=msg)
         
         pageParams['message'] = "An email has been sent to " + email
@@ -181,8 +177,9 @@ class ResetHandler(webapp.RequestHandler):
             self.response.out.write( template.render('reset.html', pageParams))
             return
         
-        user.password = password1
+        user.password = hash(password1)
         user.regkey = str(uuid.uuid4())
+        user.activated = 1
         user.put()
         
         pageParams['message'] = "Password reset succeeded."
@@ -202,15 +199,23 @@ class RegisterHandler(webapp.RequestHandler):
         
         pageParams = checkLogin(self)
         
-        if email is not None and len(email) > 0:
+        if email and len(email) > 0:
             pageParams['emailvalue'] = email
-        if firstname is not None and len(firstname) > 0:
+        if firstname and len(firstname) > 0:
             pageParams['firstnamevalue'] = firstname
-        if lastname is not None and len(lastname) > 0:
+        if lastname and len(lastname) > 0:
             pageParams['lastnamevalue'] = lastname
             
         if email is None or len(email) == 0:
             pageParams['error'] = "Email address is required."
+            self.response.out.write( template.render('register.html', pageParams))
+            return
+        
+        query = db.GqlQuery('SELECT * FROM User WHERE email = :1', email)
+        user = query.get()
+            
+        if user:
+            pageParams['error'] = "This user already exist"
             self.response.out.write( template.render('register.html', pageParams))
             return
         
@@ -231,7 +236,7 @@ class RegisterHandler(webapp.RequestHandler):
         
         user = User( regkey=str(uuid.uuid4()),
                      email=email,
-                     password=password1,
+                     password=hash(password1),
                      firstname=firstname,
                      lastname=lastname )
         user.put()
@@ -240,9 +245,9 @@ class RegisterHandler(webapp.RequestHandler):
         pageParams['key'] = user.regkey
         
         msg = template.render('confirm.eml', pageParams)            
-        mail.send_mail(sender="philippe.chretien@gmail.com",
+        mail.send_mail(sender=senderEmailAddress,
                        to=email,
-                       subject="[[sitename]] registration confirmation",
+                       subject="GaeBase registration confirmation",
                        body=msg)
         
         pageParams['message'] = "A confirmation email has been sent to " + email
@@ -253,8 +258,7 @@ class ProfileHandler(webapp.RequestHandler):
     def get(self):
         pageParams = checkLogin(self)
         
-        self.session = Session()
-        user = db.get(self.session.get('user'))
+        user = getUser(self)
         
         pageParams['emailvalue'] = user.email
         pageParams['firstnamevalue'] = user.firstname
@@ -265,8 +269,7 @@ class ProfileHandler(webapp.RequestHandler):
     def post(self):
         pageParams = checkLogin(self)        
         
-        self.session = Session()
-        user = db.get(self.session.get('user'))
+        user = getUser(self)
         
         pageParams['emailvalue'] = user.email
         pageParams['firstnamevalue'] = user.firstname
@@ -309,9 +312,9 @@ class ProfileHandler(webapp.RequestHandler):
             pageParams['key'] = user.regkey
         
             msg = template.render('changeemail.eml', pageParams)            
-            mail.send_mail(sender="philippe.chretien@gmail.com",
+            mail.send_mail(sender=senderEmailAddress,
                            to=email,
-                           subject="[[sitename]] email address confirmation.",
+                           subject="GaeBase email address confirmation.",
                            body=msg)
             
             pageParams['message'] = "Check your inbox to confirm your email address change."
@@ -337,7 +340,7 @@ class ProfileHandler(webapp.RequestHandler):
                 self.response.out.write( template.render('profile.html', pageParams))
                 return
             
-            user.password = password1
+            user.password = hash(password1)
             user.put()
             
             pageParams['message'] = "Password updated successfully."       
@@ -359,9 +362,9 @@ class ConfirmHandler(webapp.RequestHandler):
         email = self.request.get('email')
         key = self.request.get('key')
         
-        if email is not None and len(email) > 0 :
+        if email and len(email) > 0 :
             pageParams['reg'] = email 
-        if key is not None and len(key) > 0 :
+        if key and len(key) > 0 :
             pageParams['keyvalue'] = key
         
         user = None
@@ -387,21 +390,6 @@ class ConfirmHandler(webapp.RequestHandler):
             
         pageParams['message'] = "Email activated successfully."
         self.response.out.write( template.render('confirm.html', pageParams))
-        
-class CreateHandler(webapp.RequestHandler):
-    def get(self):
-        pageParams = checkLogin(self)             
-        self.response.out.write( template.render('create.html', pageParams))
-        
-class ViewHandler(webapp.RequestHandler):
-    def get(self):
-        pageParams = checkLogin(self)             
-        self.response.out.write( template.render('view.html', pageParams))
-
-class UpdateHandler(webapp.RequestHandler):
-    def get(self):
-        pageParams = checkLogin(self)    
-        self.response.out.write( template.render('update.html', pageParams))
         
 class ContactHandler(webapp.RequestHandler):
     def get(self):
@@ -453,8 +441,8 @@ class ContactHandler(webapp.RequestHandler):
             return
         
         msg = template.render('contact.eml', pageParams)            
-        mail.send_mail(sender="philippe.chretien@gmail.com",
-                       to="philippe.chretien@gmail.com",
+        mail.send_mail(sender='GaeBase <'+senderEmailAddress+'>',
+                       to=supportEmailAddress,
                        subject=subject,
                        body=msg)
         
@@ -467,9 +455,6 @@ def main():
                                           ('/register', RegisterHandler),
                                           ('/confirm', ConfirmHandler),
                                           ('/profile', ProfileHandler),
-                                          ('/create', CreateHandler),
-                                          ('/update', UpdateHandler),
-                                          ('/view', ViewHandler),
                                           ('/logout', LogoutHandler),
                                           ('/forgot', ForgotHandler),
                                           ('/reset', ResetHandler),

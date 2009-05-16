@@ -1,6 +1,6 @@
 Dear {%if firstnamevalue%}{{firstnamevalue}}{%else%}{{emailvalue}}{%endif%},
 
-You have changed your email address on [[sitename]].
+You have changed your email address on Basbrun.
 
 To activate your new email follow the link below:
 http://basbrun.appspot.com/confirm?reg={{newemail}}&key={{key}}
@@ -10,4 +10,4 @@ http://basbrun.appspot.com/confirm?reg={{newemail}}&key={{key}}
 
 Thank you,
 
-The [[sitename]] Team
+The Basbrun Team

@@ -1,45 +1,50 @@
 {% extends "base.html" %}
 
 {% block top %}
-Register
+<a href="/">Home</a> > Register
 {%endblock%}
 
 {%block content%}
 	<form action="" method="post">
 	<table>
 		<tr>
-			<td colspan=2>
+			<td colspan=4>
 				{%if error%}
 					<p><span style="color:red">{{error}}</span></p>
+					<hr>
 				{%endif%}
 				{%if message%}
 					<p><span style="color:green">{{message}}</span></p>
+					<hr>
 				{%endif%}
 			</td>
 		</tr>
 		<tr>
 			<td>First name:</td>
-			<td align="right"><input type="text" name="firstname" size="32" value="{%if firstnamevalue%}{{firstnamevalue}}{%endif%}"/></td>
+			<td colspan="2" align="right"><input type="text" name="firstname" size="32" value="{%if firstnamevalue%}{{firstnamevalue}}{%endif%}"/></td>
 		</tr>
 		<tr>
 			<td>Last name:</td>
-			<td align="right"><input type="text" name="lastname" size="32" value="{%if lastnamevalue%}{{lastnamevalue}}{%endif%}"/></td>
+			<td colspan="2" align="right"><input type="text" name="lastname" size="32" value="{%if lastnamevalue%}{{lastnamevalue}}{%endif%}"/></td>
 		</tr>
 		<tr>
 			<td>Email address:</td>
-			<td align="right"><input type="text" name="email" size="32" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/></td>
+			<td colspan="2" align="right"><input type="text" name="email" size="32" value="{%if emailvalue%}{{emailvalue}}{%endif%}"/></td><td style="color:red"> *</td>
 		</tr>
 		<tr>
 			<td>Password:</td>
-			<td align="right"><input type="password" name="password1" size="32"/></td>
+			<td colspan="2" align="right"><input type="password" name="password1" size="32"/></td><td style="color:red"> *</td>
 		</tr>
 		<tr>
 			<td>Confirm password:</td>
-			<td align="right"><input type="password" name="password2" size="32"/></td>
+			<td colspan="2" align="right"><input type="password" name="password2" size="32"/></td><td style="color:red"> *</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="right"><input type="submit" value="Register"/></td>
+			<td colspan="3" align="right"><input type="submit" value="Register"/></td>
 		</tr>
 	</table>
 	</form>
+{% endblock %}
+
+{%block right%}
 {% endblock %}
