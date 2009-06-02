@@ -54,7 +54,7 @@
 			<p><a href="/contact">Contact us</a></p>
 		{% endblock %}
 	</td>
-	<td valign="top" bgcolor="ffffff" width="550">{% block content %}{% endblock %}</td>
+	<td valign="top" bgcolor="ffffff" width="550" rowspan="2">{% block content %}{% endblock %}</td>
 	<td valign="top" bgcolor="ffffff" width="125">
 		{% block right %}
 			{%if email%}
@@ -85,6 +85,14 @@
 			</script>
 		</div>
 	</td>
+	</tr>
+	<tr>
+		<td valign="bottom" bgcolor="ffffff" >
+		</td>
+		<td valign="bottom" bgcolor="ffffff" >
+			<img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
+		</td>
+	</tr>
     <tr height=25>
 	    <td colspan=3 valign="top" bgcolor="dddddd">
 		    {%block footer%}
