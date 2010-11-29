@@ -1,4 +1,3 @@
-
 import uuid
 import wsgiref.handlers
 from Crypto.Hash import MD5
@@ -12,7 +11,7 @@ from google.appengine.api import memcache
 from basbrun import User
 from appengine_utilities.sessions import Session
 
-debug = True
+debug = False
 senderEmailAddress = 'philippe.chretien@gmail.com'
 supportEmailAddress = 'philippe.chretien@gmail.com'
 
